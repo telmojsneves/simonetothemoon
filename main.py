@@ -17,7 +17,7 @@ def add_message():
     test = Analyse()
     print dir(request.json)
 
-    test.treat_message(request.json["text"],request.json["message"])
+    test.treat_message(request.json["text"],request.json["timestamp"])
 
 
     return jsonify(content)
