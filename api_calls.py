@@ -7,7 +7,6 @@ import json
 class Calls:
 
     def all_calls(self, text):
-
         return self.hapiness_measure(text)
 
 

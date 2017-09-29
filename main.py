@@ -10,6 +10,9 @@ from flask import g
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
+import unicodedata
+import ast
+
 app = Flask(__name__)
 
 
@@ -60,18 +63,19 @@ def add_message():
 
     db.commit()
 
-    cur.execute("SELECT * FROM mooding");
-
-    for row in cur :
-        print row
-
 
     db.close()
 
     return jsonify(content)
 
 
-def switch(x):
+def switch(tuple_values):
+	temp = unicodedata.normalize('NFKD', tuple_values[1]).encode('ascii','ignore')
+	dic = ast.literal_eval(temp)
+
+	x = dic["documents"][0]["score"]
+
+	#return str(x)
 	if x<0.25:
 		return "musica1"
 	elif x<0.50:
@@ -80,6 +84,7 @@ def switch(x):
 		return "musica3"
 	else:
 		return "musica4"
+
 
 @app.route('/api/mood', methods=['GET'])
 def get_mood():
